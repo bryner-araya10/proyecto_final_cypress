@@ -6,13 +6,13 @@ class login{
         usuario : () => cy.getLogin('username'),
         password : () => cy.getLogin('password'),
         btnlogin : () => cy.getLogin('login-button'),
+        btnlogout : () => cy.getLogin('continue-shopping'),
        
     }
 
-
-    /*clickOnSubmitBtn(){
-        this.elements.submitBtn().click()
-    }*/
+    clickOnSubmitBtn(){
+    this.elements.submitBtn().click()
+    }
 }
 
 

@@ -3,17 +3,16 @@ import finalPage from "../pages/finalPage";
 describe('Proyecto final', () => {
   beforeEach (() => {
     cy.visit('https://www.saucedemo.com/')
-    //cy.fixture('correo').as("data")
+    cy.fixture('login').as("data")
   })
   
-  context("Sección de Login", () => {
+  context("Login", () => {
 
     it('Login Invalido', () => {
     finalPage.elements.usuario().type('problem_user');
     finalPage.elements.password().type('secret_saucse');
     finalPage.elements.btnlogin().click();
     cy.getLogin('error').should('be.visible');
-  
 
   });
 
@@ -43,11 +42,11 @@ describe('Proyecto final', () => {
     finalPage.elements.usuario().type('standard_user');
     finalPage.elements.password().type('secret_sauce');
     finalPage.elements.btnlogin().click();
-    cy.get("span").eq(0).contains("Products")
+    cy.xpath('//div').contains("Swag Labs");
+    cy.get('.bm-item-list');
     cy.get('.bm-burger-button').click();
     cy.get('.bm-cross-button').click();
-    cy.get('.bm-burger-button').click();
-    cy.get('#logout_sidebar_link').click();
+
 
 });
 });
@@ -57,6 +56,7 @@ it('Funcionalidad del Filtro', () => {
 finalPage.elements.usuario().type('standard_user');
 finalPage.elements.password().type('secret_sauce');
 finalPage.elements.btnlogin().click();
+cy.xpath('//div').contains("Products")
 cy.get('.product_sort_container').select('Price (high to low)');
 
 });
@@ -77,25 +77,18 @@ context("Vista detalle del producto", () => {
 });
   
 context("Bonus", () => {
-  it('Carrito', () => {
+  it('Agregar productos al Carrito', () => {
     finalPage.elements.usuario().type('standard_user');
     finalPage.elements.password().type('secret_sauce');
     finalPage.elements.btnlogin().click();
     cy.get('.inventory_item').each(($product) => {
-      $product.find('.btn_primary').click();
-      });
+    $product.find('.btn_primary').click();
+    cy.get('.shopping_cart_link').click();
+    cy.get('.shopping_cart_badge').should('have.text', '6');
+    cy.url().should('include', '/cart.html');
+    finalPage.elements.btnlogout().click()
 
-  it.only('Remover objetos del carrito', () => {
-    cy.get('.inventory_item').each(($product) => {
-    $product.find('.btn_secondary').click();
-      });
-
-  });
-    
+    });
   });
 });
-
-
-
-
-
+})
